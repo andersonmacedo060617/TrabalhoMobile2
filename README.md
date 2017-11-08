@@ -12,16 +12,17 @@ Entretanto, atualmente a empresa não consegue saber com precisão aonde a
 entrega se encontra e quanto tempo irá demorar e nem qual percurso foi feito
 pelo entregador e onde ele se encontra, gerando assim um grande desconforto
 com o cliente.
+
 O aplicativo deve permitir:
- Que o cliente da empresa realize o login no aplicativo.
- Possa solicitar uma entrega, gerando assim um custo e uma
+* Que o cliente da empresa realize o login no aplicativo.
+* Possa solicitar uma entrega, gerando assim um custo e uma
 previsão de entrega. Na solicitação de entrega devem constar o peso
 do produto, o local de origem e destino, dentre outras informações
 que julgar necessário
- O cliente pode acompanhar a situação e o status de todas as suas
+* O cliente pode acompanhar a situação e o status de todas as suas
 entregas.
- O cliente poderá avaliar a entrega
- O Caminhoneiro deve registrar no sistema os locais de previsão de
+* O cliente poderá avaliar a entrega
+* O Caminhoneiro deve registrar no sistema os locais de previsão de
 passagem e ir registrando conforme for passando pelo local.
- A transportadora pode monitorar todas as entregas bem como os
+* A transportadora pode monitorar todas as entregas bem como os
 lucros e as avaliações realizadas pelos clientes.
