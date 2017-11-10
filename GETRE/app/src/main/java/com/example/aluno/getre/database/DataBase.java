@@ -50,18 +50,20 @@ public class DataBase extends SQLiteOpenHelper {
 
 
     //ENDERECO
-    public static final String TABLE_EDERECO = "endereco";
+    public static final String TABLE_ENDERECO = "endereco";
     public static final String ENDERECO_ID = "id";
-    public static final String ENDERECO_RUA = "rua";
+    public static final String ENDERECO_NUMERO = "numero";
     public static final String ENDERECO_COMPLEMENTO = "complemento";
     public static final String ENDERECO_BAIRRO = "bairro";
     public static final String ENDERECO_CIDADE = "id_cidade";
+    public static final String ENDERECO_RUA = "rua";
 
-    public static final String CREATE_TABLE_ENDERECO = "create table " + TABLE_EDERECO + " " +
+    public static final String CREATE_TABLE_ENDERECO = "create table " + TABLE_ENDERECO + " " +
             "( " + ENDERECO_ID + " integer primary key autoincrement, " +
-            "  " + ENDERECO_RUA + " text not null, " +
-            "  " + ENDERECO_COMPLEMENTO + " text not null, " +
-            "  " + ENDERECO_BAIRRO + " text not null, " +
+            "  " + ENDERECO_RUA + " text, " +
+            "  " + ENDERECO_COMPLEMENTO + " text, " +
+            "  " + ENDERECO_BAIRRO + " text, " +
+            "  " + ENDERECO_NUMERO + " text, " +
             "  " + ENDERECO_CIDADE + " integer " +
             ");";
 
@@ -109,15 +111,69 @@ public class DataBase extends SQLiteOpenHelper {
             "  " + PONTOPARADA_ORDEM + " integer " +
             ");";
 
+    //PORTE VEICULO
+    public static final String TABLE_PORTEVEICULO = "porte_veiculo";
+    public static final String PORTEVEICULO_ID = "id";
+    public static final String PORTEVEICULO_DESCRICAO = "descricao";
+    public static final String PORTEVEICULO_VEICULO = "veiculo";
+
+    public static final String CREATE_TABLE_PORTEVICULO = "create table " + TABLE_PORTEVEICULO + " " +
+            "( " + PORTEVEICULO_ID + " integer primary key autoincrement, " +
+            "  " + PORTEVEICULO_DESCRICAO + " text, " +
+            "  " + PORTEVEICULO_VEICULO + " text " +
+            ");";
+
+    //PORTE REGISTRO PONTO PARADA
+    public static final String TABLE_REGISTROPONTOPARADA = "registro_ponto_parada";
+    public static final String REGISTROPONTOPARADA_ID = "id";
+    public static final String REGISTROPONTOPARADA_DESCRICAO = "descricao";
+    public static final String REGISTROPONTOPARADA_PONTOPARADA = "id_ponto_parada";
+    public static final String REGISTROPONTOPARADA_ENTREGA = "id_entrega";
+    public static final String REGISTROPONTOPARADA_DATAHORACHEGADA = "datahora_chegada";
+
+    public static final String CREATE_TABLE_REGISTROPONTOPARADA = "create table " + TABLE_REGISTROPONTOPARADA + " " +
+            "( " + REGISTROPONTOPARADA_ID + " integer primary key autoincrement, " +
+            "  " + REGISTROPONTOPARADA_DESCRICAO + " text, " +
+            "  " + REGISTROPONTOPARADA_PONTOPARADA + " integer, " +
+            "  " + REGISTROPONTOPARADA_ENTREGA + " integer, " +
+            "  " + REGISTROPONTOPARADA_DATAHORACHEGADA + " text " +
+            ");";
+
+    //PORTE ROTA
+    public static final String TABLE_ROTA = "rota";
+    public static final String ROTA_ID = "id";
+    public static final String ROTA_NOME = "nome";
+
+    public static final String CREATE_TABLE_ROTA = "create table " + TABLE_ROTA + " " +
+            "( " + ROTA_ID + " integer primary key autoincrement, " +
+            "  " + ROTA_NOME + " text " +
+            ");";
+
 
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-
+        sqLiteDatabase.execSQL(CREATE_TABLE_CIDADE);
+        sqLiteDatabase.execSQL(CREATE_TABLE_ENDERECO);
+        sqLiteDatabase.execSQL(CREATE_TABLE_ENTREGA);
+        sqLiteDatabase.execSQL(CREATE_TABLE_PONTOPARADA);
+        sqLiteDatabase.execSQL(CREATE_TABLE_PORTEVICULO);
+        sqLiteDatabase.execSQL(CREATE_TABLE_REGISTROPONTOPARADA);
+        sqLiteDatabase.execSQL(CREATE_TABLE_ROTA);
+        sqLiteDatabase.execSQL(CREATE_TABLE_USUARIO);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+        sqLiteDatabase.execSQL("drop table "+TABLE_CIDADE);
+        sqLiteDatabase.execSQL("drop table "+TABLE_ENDERECO);
+        sqLiteDatabase.execSQL("drop table "+TABLE_ENTREGA);
+        sqLiteDatabase.execSQL("drop table "+TABLE_PONTOPARADA);
+        sqLiteDatabase.execSQL("drop table "+TABLE_PORTEVEICULO);
+        sqLiteDatabase.execSQL("drop table "+TABLE_REGISTROPONTOPARADA);
+        sqLiteDatabase.execSQL("drop table "+TABLE_ROTA);
+        sqLiteDatabase.execSQL("drop table "+TABLE_USUARIO);
 
+        onCreate(sqLiteDatabase);
     }
 }

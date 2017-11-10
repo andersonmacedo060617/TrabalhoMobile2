@@ -34,4 +34,6 @@ public class PorteVeiculo implements Serializable {
     public void setVeiculo(String veiculo) {
         this.veiculo = veiculo;
     }
+
+
 }

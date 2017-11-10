@@ -129,4 +129,6 @@ public class Entrega implements Serializable {
     public void setStatus(EStatus status) {
         this.status = status;
     }
+
+
 }
