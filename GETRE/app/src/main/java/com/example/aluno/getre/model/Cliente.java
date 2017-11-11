@@ -1,5 +1,7 @@
 package com.example.aluno.getre.model;
 
+import com.example.aluno.getre.model.enums.ETipoUsuario;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -8,6 +10,10 @@ import java.util.ArrayList;
  */
 
 public class Cliente extends Usuario implements Serializable {
+
+    public Cliente(){
+        this.setTipoUsuario(ETipoUsuario.Cliente);
+    }
 
     private ArrayList<Entrega> entregasContratadas;
 

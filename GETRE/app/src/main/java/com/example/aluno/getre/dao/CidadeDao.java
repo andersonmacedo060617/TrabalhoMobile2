@@ -55,7 +55,7 @@ public class CidadeDao {
             Cursor c = con.rawQuery (sql,null);
             List<Cidade> lista = new ArrayList<>();
             while (c.moveToNext()){
-                Cidade cidade = null;
+                Cidade cidade = new Cidade();
                 cidade.setId(c.getInt( c.getColumnIndex( DataBase.CIDADE_ID ) ));
                 cidade.setNome(c.getString( c.getColumnIndex( DataBase.CIDADE_NOME ) ));
                 cidade.setUF(c.getString( c.getColumnIndex( DataBase.CIDADE_UF ) ));
@@ -81,6 +81,7 @@ public class CidadeDao {
             //c.moveToFirst();
             Cidade cidade = null;
             if (c.moveToNext()){
+                cidade = new Cidade();
                 cidade.setId(c.getInt( c.getColumnIndex( DataBase.CIDADE_ID ) ));
                 cidade.setNome(c.getString( c.getColumnIndex( DataBase.CIDADE_NOME ) ));
                 cidade.setUF(c.getString( c.getColumnIndex( DataBase.CIDADE_UF ) ));

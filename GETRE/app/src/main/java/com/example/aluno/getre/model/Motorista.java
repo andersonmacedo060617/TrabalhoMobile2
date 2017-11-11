@@ -1,5 +1,7 @@
 package com.example.aluno.getre.model;
 
+import com.example.aluno.getre.model.enums.ETipoUsuario;
+
 import java.io.Serializable;
 
 /**
@@ -7,5 +9,7 @@ import java.io.Serializable;
  */
 
 public class Motorista extends Usuario implements Serializable {
-
+    public Motorista(){
+        this.setTipoUsuario(ETipoUsuario.Motorista);
+    }
 }

@@ -62,7 +62,7 @@ public class EnderecoDao {
             Cursor c = con.rawQuery (sql,null);
             List<Endereco> lista = new ArrayList<>();
             while (c.moveToNext()){
-                Endereco endereco = null;
+                Endereco endereco = new Endereco();
                 endereco.setId(c.getInt( c.getColumnIndex( DataBase.ENDERECO_ID ) ));
                 endereco.setBairro(c.getString( c.getColumnIndex( DataBase.ENDERECO_BAIRRO ) ));
                 endereco.setComplemento(c.getString( c.getColumnIndex( DataBase.ENDERECO_COMPLEMENTO ) ));
@@ -91,6 +91,7 @@ public class EnderecoDao {
             //c.moveToFirst();
             Endereco endereco = null;
             if (c.moveToNext()){
+                endereco = new Endereco();
                 endereco.setId(c.getInt( c.getColumnIndex( DataBase.ENDERECO_ID ) ));
                 endereco.setBairro(c.getString( c.getColumnIndex( DataBase.ENDERECO_BAIRRO ) ));
                 endereco.setComplemento(c.getString( c.getColumnIndex( DataBase.ENDERECO_COMPLEMENTO ) ));

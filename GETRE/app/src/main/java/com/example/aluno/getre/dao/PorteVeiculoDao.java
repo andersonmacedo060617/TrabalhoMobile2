@@ -55,7 +55,7 @@ public class PorteVeiculoDao {
             Cursor c = con.rawQuery (sql,null);
             List<PorteVeiculo> lista = new ArrayList<>();
             while (c.moveToNext()){
-                PorteVeiculo porteVeiculo = null;
+                PorteVeiculo porteVeiculo = new PorteVeiculo();
                 porteVeiculo.setId(c.getInt( c.getColumnIndex( DataBase.PORTEVEICULO_ID ) ));
                 porteVeiculo.setDescricao(c.getString( c.getColumnIndex( DataBase.PORTEVEICULO_DESCRICAO ) ));
                 porteVeiculo.setVeiculo(c.getString( c.getColumnIndex( DataBase.PORTEVEICULO_VEICULO) ));
@@ -81,6 +81,7 @@ public class PorteVeiculoDao {
             //c.moveToFirst();
             PorteVeiculo porteVeiculo = null;
             if (c.moveToNext()){
+                porteVeiculo = new PorteVeiculo();
                 porteVeiculo.setId(c.getInt( c.getColumnIndex( DataBase.PORTEVEICULO_ID ) ));
                 porteVeiculo.setDescricao(c.getString( c.getColumnIndex( DataBase.PORTEVEICULO_DESCRICAO) ));
                 porteVeiculo.setVeiculo(c.getString( c.getColumnIndex( DataBase.PORTEVEICULO_VEICULO ) ));
