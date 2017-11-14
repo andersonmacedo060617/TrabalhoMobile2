@@ -3,6 +3,8 @@ package com.example.aluno.getre.model;
 import com.example.aluno.getre.model.enums.EStatus;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -130,5 +132,15 @@ public class Entrega implements Serializable {
         this.status = status;
     }
 
+
+    public String getDataSaidaStr(){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return sdf.format(this.dataSaida);
+    }
+
+    public void setDataSaidaToDate(String data) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        this.dataSaida = sdf.parse(data);
+    }
 
 }
