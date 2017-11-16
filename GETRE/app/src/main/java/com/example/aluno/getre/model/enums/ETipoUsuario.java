@@ -5,5 +5,5 @@ package com.example.aluno.getre.model.enums;
  */
 
 public enum ETipoUsuario {
-    Cliente, Motorista
+    Cliente, Motorista, Administrador
 }

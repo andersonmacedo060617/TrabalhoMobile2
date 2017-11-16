@@ -33,6 +33,9 @@ public class UsuarioDao {
         cv.put(DataBase.USUARIO_LOGIN, usuario.getLogin());
         cv.put(DataBase.USUARIO_SENHA, usuario.getSenha());
         cv.put(DataBase.USUARIO_TIPOUSUARIO, usuario.getTipoUsuario().toString());
+        cv.put(DataBase.USUARIO_EMAIL, usuario.getEmail());
+        cv.put(DataBase.USUARIO_ATIVO, usuario.getAtivoInt());
+        cv.put(DataBase.USUARIO_CADASTRO, usuario.getCadastroStr());
 
 
         con.insert(DataBase.TABLE_USUARIO, "", cv);
@@ -47,6 +50,9 @@ public class UsuarioDao {
         cv.put(DataBase.USUARIO_NOME, usuario.getNome());
         cv.put(DataBase.USUARIO_LOGIN, usuario.getLogin());
         cv.put(DataBase.USUARIO_SENHA, usuario.getSenha());
+        cv.put(DataBase.USUARIO_EMAIL, usuario.getEmail());
+        cv.put(DataBase.USUARIO_ATIVO, usuario.getAtivoInt());
+        cv.put(DataBase.USUARIO_CADASTRO, usuario.getCadastroStr());
         cv.put(DataBase.USUARIO_TIPOUSUARIO, usuario.getTipoUsuario().toString());
 
         con.update(DataBase.TABLE_USUARIO
@@ -58,10 +64,11 @@ public class UsuarioDao {
 
     public List<Usuario> findAll() {
         SQLiteDatabase con = banco.getWritableDatabase();
+        List<Usuario> lista = new ArrayList<>();
         try {
             String sql = "select * from " + DataBase.TABLE_USUARIO;
             Cursor c = con.rawQuery (sql,null);
-            List<Usuario> lista = new ArrayList<>();
+
             while (c.moveToNext()){
                 Usuario usuario = null;
                 if(c.getString( c.getColumnIndex( DataBase.USUARIO_TIPOUSUARIO) ) == ETipoUsuario.Cliente.toString()){
@@ -73,27 +80,33 @@ public class UsuarioDao {
                 usuario.setNome(c.getString( c.getColumnIndex( DataBase.USUARIO_NOME) ));
                 usuario.setLogin(c.getString( c.getColumnIndex( DataBase.USUARIO_LOGIN) ));
                 usuario.setSenha(c.getString( c.getColumnIndex( DataBase.USUARIO_SENHA) ));
+                usuario.setEmail(c.getString( c.getColumnIndex( DataBase.USUARIO_EMAIL) ));
+                usuario.setAtivoInt(c.getInt( c.getColumnIndex( DataBase.USUARIO_ATIVO) ));
+                usuario.setCadastroToDate(c.getString(c.getColumnIndex(DataBase.USUARIO_CADASTRO)));
 
                 lista.add(usuario);
             }
-            return lista;
+
         } catch (ParseException e) {
             return null;
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
         } finally {
             con.close();
         }
-
+        return lista;
     }
 
     public Usuario findById(int id) {
         SQLiteDatabase con = banco.getWritableDatabase();
+        Usuario usuario = null;
         try {
             String sql = "select * from " +
                     DataBase.TABLE_USUARIO +" where "+
                     DataBase.USUARIO_ID+"='"+ id +"' ";
             Cursor c = con.rawQuery (sql,null);
             //c.moveToFirst();
-            Usuario usuario = null;
+
             if (c.moveToNext()){
                 if(c.getString( c.getColumnIndex( DataBase.USUARIO_TIPOUSUARIO) ) == ETipoUsuario.Cliente.toString()){
                     usuario = new Cliente();
@@ -105,13 +118,20 @@ public class UsuarioDao {
                 usuario.setNome(c.getString( c.getColumnIndex( DataBase.USUARIO_NOME) ));
                 usuario.setLogin(c.getString( c.getColumnIndex( DataBase.USUARIO_LOGIN) ));
                 usuario.setSenha(c.getString( c.getColumnIndex( DataBase.USUARIO_SENHA) ));
+                usuario.setEmail(c.getString( c.getColumnIndex( DataBase.USUARIO_EMAIL) ));
+                usuario.setAtivoInt(c.getInt( c.getColumnIndex( DataBase.USUARIO_ATIVO) ));
+                usuario.setCadastroToDate(c.getString(c.getColumnIndex(DataBase.USUARIO_CADASTRO)));
+
             }
-            return usuario;
+
         } catch (ParseException e) {
             return null;
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
         } finally {
             con.close();
         }
+        return usuario;
 
     }
 }

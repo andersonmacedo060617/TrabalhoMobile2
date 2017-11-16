@@ -13,6 +13,7 @@ public class Cliente extends Usuario implements Serializable {
 
     public Cliente(){
         this.setTipoUsuario(ETipoUsuario.Cliente);
+        this.setEntregasContratadas(new ArrayList<Entrega>());
     }
 
     private ArrayList<Entrega> entregasContratadas;

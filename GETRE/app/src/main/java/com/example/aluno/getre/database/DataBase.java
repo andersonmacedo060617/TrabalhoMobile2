@@ -24,15 +24,23 @@ public class DataBase extends SQLiteOpenHelper {
     public static final String TABLE_USUARIO = "usuario";
     public static final String USUARIO_ID = "id";
     public static final String USUARIO_NOME = "nome";
+    public static final String USUARIO_EMAIL = "email";
     public static final String USUARIO_LOGIN = "login";
     public static final String USUARIO_SENHA = "senha";
+    public static final String USUARIO_ATIVO = "ativo";
+    public static final String USUARIO_CADASTRO = "cadastro";
     public static final String USUARIO_TIPOUSUARIO = "tipousuario";
+
+
 
     public static final String CREATE_TABLE_USUARIO = "create table " + TABLE_USUARIO + " " +
             "( " + USUARIO_ID + " integer primary key autoincrement, " +
             "  " + USUARIO_NOME + " text not null, " +
             "  " + USUARIO_LOGIN + " text not null, " +
             "  " + USUARIO_SENHA + " text not null, " +
+            "  " + USUARIO_EMAIL + " text not null, " +
+            "  " + USUARIO_ATIVO + " integer not null, " +
+            "  " + USUARIO_CADASTRO + " text not null, " +
             "  " + USUARIO_TIPOUSUARIO + " text not null " +
             ");";
 
