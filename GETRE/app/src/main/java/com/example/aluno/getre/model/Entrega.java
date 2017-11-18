@@ -17,16 +17,15 @@ public class Entrega implements Serializable {
     private int id;
     private Cliente cliente;
     private Motorista motorista;
-    private double custoTotal;
-    private double peso;
-    private double distanciaTotal;
+    private double valor;
+    private double kmPercorrido;
     private Endereco enderecoOrigem;
     private Endereco enderecoDestino;
-    private ArrayList<RegistroPontoParada> registroParadas;
-    private Rota rota;
-    private PorteVeiculo porteVeiculo;
-    private Date dataSaida;
-    private EStatus status;
+    private ArrayList<Endereco> registroParadas;
+    private Produto produto;
+
+    private boolean entregaAberta;
+    private Date cadastro;
 
     public int getId() {
         return id;
@@ -52,29 +51,14 @@ public class Entrega implements Serializable {
         this.motorista = motorista;
     }
 
-    public double getCustoTotal() {
-        return custoTotal;
+    public double getValor() {
+        return valor;
     }
 
-    public void setCustoTotal(double custoTotal) {
-        this.custoTotal = custoTotal;
+    public void setValor(double valor) {
+        this.valor = valor;
     }
 
-    public double getPeso() {
-        return peso;
-    }
-
-    public void setPeso(double peso) {
-        this.peso = peso;
-    }
-
-    public double getDistanciaTotal() {
-        return distanciaTotal;
-    }
-
-    public void setDistanciaTotal(double distanciaTotal) {
-        this.distanciaTotal = distanciaTotal;
-    }
 
     public Endereco getEnderecoOrigem() {
         return enderecoOrigem;
@@ -92,55 +76,59 @@ public class Entrega implements Serializable {
         this.enderecoDestino = enderecoDestino;
     }
 
-    public ArrayList<RegistroPontoParada> getRegistroParadas() {
+    public double getKmPercorrido() {
+        return kmPercorrido;
+    }
+
+    public void setKmPercorrido(double kmPercorrido) {
+        this.kmPercorrido = kmPercorrido;
+    }
+
+    public boolean isEntregaAberta() {
+        return entregaAberta;
+    }
+
+    public void setEntregaAberta(boolean entregaAberta) {
+        this.entregaAberta = entregaAberta;
+    }
+
+    public ArrayList<Endereco> getRegistroParadas() {
         return registroParadas;
     }
 
-    public void setRegistroParadas(ArrayList<RegistroPontoParada> registroParadas) {
+    public void setRegistroParadas(ArrayList<Endereco> registroParadas) {
         this.registroParadas = registroParadas;
     }
 
-    public Rota getRota() {
-        return rota;
+    public void addRegistroParadas(Endereco endereco){
+        this.registroParadas.add(endereco);
     }
 
-    public void setRota(Rota rota) {
-        this.rota = rota;
+    public Produto getProduto() {
+        return produto;
     }
 
-    public PorteVeiculo getPorteVeiculo() {
-        return porteVeiculo;
+    public void setProduto(Produto produto) {
+        this.produto = produto;
     }
 
-    public void setPorteVeiculo(PorteVeiculo porteVeiculo) {
-        this.porteVeiculo = porteVeiculo;
+    public Date getCadastro() {
+        return cadastro;
     }
 
-    public Date getDataSaida() {
-        return dataSaida;
+    public void setCadastro(Date cadastro) {
+        this.cadastro = cadastro;
     }
 
-    public void setDataSaida(Date dataSaida) {
-        this.dataSaida = dataSaida;
-    }
-
-    public EStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(EStatus status) {
-        this.status = status;
-    }
-
-
-    public String getDataSaidaStr(){
+    public String getCadastroStr(){
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        return sdf.format(this.dataSaida);
+        return sdf.format(this.cadastro);
     }
 
-    public void setDataSaidaToDate(String data) throws ParseException {
+    public void setCadastroToDate(String data) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        this.dataSaida = sdf.parse(data);
+        this.cadastro = sdf.parse(data);
     }
+
 
 }

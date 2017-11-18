@@ -1,6 +1,9 @@
 package com.example.aluno.getre.model;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by aluno on 08/11/2017.
@@ -8,11 +11,11 @@ import java.io.Serializable;
 
 public class Endereco implements Serializable {
     private int id;
-    private String rua;
-    private String numero;
-    private String complemento;
-    private String bairro;
-    private Cidade cidade;
+    private String descricao;
+    private String detalhe;
+    private double kmFaltante;
+    private double kmPercorrido;
+    private Date horrario;
 
     public int getId() {
         return id;
@@ -22,43 +25,53 @@ public class Endereco implements Serializable {
         this.id = id;
     }
 
-    public String getRua() {
-        return rua;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setRua(String rua) {
-        this.rua = rua;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
-    public String getNumero() {
-        return numero;
+    public String getDetalhe() {
+        return detalhe;
     }
 
-    public void setNumero(String numero) {
-        this.numero = numero;
+    public void setDetalhe(String detalhe) {
+        this.detalhe = detalhe;
     }
 
-    public String getComplemento() {
-        return complemento;
+    public double getKmFaltante() {
+        return kmFaltante;
     }
 
-    public void setComplemento(String complemento) {
-        this.complemento = complemento;
+    public void setKmFaltante(double kmFaltante) {
+        this.kmFaltante = kmFaltante;
     }
 
-    public String getBairro() {
-        return bairro;
+    public double getKmPercorrido() {
+        return kmPercorrido;
     }
 
-    public void setBairro(String bairro) {
-        this.bairro = bairro;
+    public void setKmPercorrido(double kmPercorrido) {
+        this.kmPercorrido = kmPercorrido;
     }
 
-    public Cidade getCidade() {
-        return cidade;
+    public Date getHorrario() {
+        return horrario;
     }
 
-    public void setCidade(Cidade cidade) {
-        this.cidade = cidade;
+    public void setHorrario(Date horrario) {
+        this.horrario = horrario;
+    }
+
+    public void setHorrarioToDate(String data) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        this.horrario = sdf.parse(data);
+    }
+
+    public String getHorrarioStr(){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        return sdf.format(this.horrario);
     }
 }
