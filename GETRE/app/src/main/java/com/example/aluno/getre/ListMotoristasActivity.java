@@ -2,7 +2,9 @@ package com.example.aluno.getre;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -16,6 +18,7 @@ import java.util.concurrent.ExecutionException;
 public class ListMotoristasActivity extends AppCompatActivity {
 
     ListView lstViewMotoristas;
+    Button btnVoltar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +28,12 @@ public class ListMotoristasActivity extends AppCompatActivity {
         Biding();
         CarregarLstViewMotoristas();
 
+        btnVoltar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     /*
@@ -32,6 +41,7 @@ public class ListMotoristasActivity extends AppCompatActivity {
      */
     private void Biding() {
         lstViewMotoristas = (ListView) findViewById(R.id.frmLstMotoristas_lstVMotoristas);
+        btnVoltar = (Button)findViewById(R.id.frmLstMotoristas_btnVoltar);
     }
 
     /*

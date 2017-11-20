@@ -2,7 +2,9 @@ package com.example.aluno.getre;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -18,6 +20,7 @@ import java.util.concurrent.ExecutionException;
 public class ListClientesActivity extends AppCompatActivity {
 
     ListView lstViewClientes;
+    Button btnVoltar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,11 +28,14 @@ public class ListClientesActivity extends AppCompatActivity {
         final Usuario user = (Usuario)getIntent().getExtras().getSerializable("usuario");
 
         Biding();
-
-
         CarregarLstViewClientes();
 
-
+        btnVoltar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
 
@@ -38,6 +44,7 @@ public class ListClientesActivity extends AppCompatActivity {
      */
     private void Biding() {
         lstViewClientes = (ListView) findViewById(R.id.frmLstCliente_lstVClientes);
+        btnVoltar = (Button) findViewById(R.id.frmLstCliente_btnVoltar);
     }
 
     /*
@@ -63,7 +70,7 @@ public class ListClientesActivity extends AppCompatActivity {
         String[] vetorCli = new String[lstClientes.size()];
         int i =0;
         for(Usuario u : lstClientes){
-            vetorCli[i++] = u.getId() + " - " + u.getNome();
+            vetorCli[i++] = u.getId() + " - " + u.getNome() + " - Tipo:" + u.getTipoUsuario().toString();
         }
 
         //Preencher o Adapter

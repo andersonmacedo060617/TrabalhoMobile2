@@ -21,14 +21,13 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class LoginActivity extends AppCompatActivity {
-    Button btnLogar, btnCadastar;
+    Button btnLogar;
     TextView edtLogin, edtSenha;
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         finish();
-
     }
 
     @Override
@@ -85,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void BindFields() {
         btnLogar = (Button) findViewById(R.id.frmLogin_btnLogar);
-        btnCadastar = (Button) findViewById(R.id.frmLogin_btnCadUser);
+
         edtLogin = (TextView) findViewById(R.id.frmLogin_edtLogin);
         edtSenha = (TextView) findViewById(R.id.frmLogin_edtSenha);
     }

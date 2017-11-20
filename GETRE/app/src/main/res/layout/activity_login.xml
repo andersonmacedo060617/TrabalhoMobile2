@@ -110,15 +110,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <Button
-                android:text="Cadastre-se"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/frmLogin_btnCadUser"
-                android:background="@android:color/holo_green_dark"
-                android:textColor="@android:color/background_light"
-                android:textSize="18sp"
-                android:textStyle="normal|bold" />
         </LinearLayout>
 
     </LinearLayout>

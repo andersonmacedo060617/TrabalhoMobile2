@@ -34,8 +34,8 @@ public class Entrega_DaoJson {
         entrega.setCadastroToDate(json_data.getString("cadastro").replace("=", ""));
         entrega.setEnderecoOrigem(new Endereco_DaoJson().MontaEndereco(json_data.getJSONObject("origem")));
         entrega.setEnderecoDestino(new Endereco_DaoJson().MontaEndereco(json_data.getJSONObject("destino")));
-        entrega.setCliente((Cliente) new Usuario_DaoJson().MontaUsuario(json_data.getJSONObject("destino")));
-        entrega.setMotorista((Motorista) new Usuario_DaoJson().MontaUsuario(json_data.getJSONObject("destino")));
+        entrega.setCliente((Cliente) new Usuario_DaoJson().MontaUsuario(json_data.getJSONObject("cliente")));
+        entrega.setMotorista((Motorista) new Usuario_DaoJson().MontaUsuario(json_data.getJSONObject("motorista")));
 
         JSONArray arrPontos = json_data.getJSONArray("pontos");
         for (int i = 0; i < arrPontos.length(); i++){

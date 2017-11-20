@@ -1,12 +1,15 @@
-package com.example.aluno.getre.service.entrega_service;
+package com.example.aluno.getre.service.pontosParada_service;
 
 import android.os.AsyncTask;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 
-import com.example.aluno.getre.model.Entrega;
-import com.example.aluno.getre.service.dao_json.Entrega_DaoJson;
+import com.example.aluno.getre.model.Endereco;
+import com.example.aluno.getre.service.dao_json.Endereco_DaoJson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -14,54 +17,47 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
- * Created by aluno on 17/11/2017.
+ * Created by Anderson2 on 19/11/2017.
  */
 
-public class AllEntregas extends AsyncTask<String, Void, ArrayList<Entrega>> {
+public class FindEnderecoByIdThread extends AsyncTask<String, Void, Endereco> {
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
-    protected ArrayList<Entrega> doInBackground(String... strings) {
-        String urll = "https://service.davesmartins.com.br/api/entregas";
+    protected Endereco doInBackground(String... strings) {
+        String urll = "https://service.davesmartins.com.br/api/referencia/" + strings[0];
 
-        ArrayList<Entrega> resposta = new ArrayList<>();
+        Endereco resposta = null;
         HttpURLConnection conn = null;
 
         try {
             URL url = new URL(urll);
-            conn = (HttpURLConnection)url.openConnection();
+            conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.connect();
 
             InputStream in = new BufferedInputStream(conn.getInputStream());
             StringBuilder sb = new StringBuilder();
-            try(BufferedReader reader = new BufferedReader(new InputStreamReader(in))){
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
                 String nextLine = "";
-                while ((nextLine = reader.readLine()) != null){
+                while ((nextLine = reader.readLine()) != null) {
                     sb.append(nextLine);
                 }
-            }catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
 
             String linha = sb.toString();
 
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            JSONArray jArray = new JSONArray(linha);
+            JSONObject jObject = new JSONObject(linha);
 
-            for(int i = 0; i< jArray.length(); i++){
-                resposta.add(new Entrega_DaoJson().MontaEndereco(jArray.getJSONObject(i)));
-            }
-
+            resposta = new Endereco_DaoJson().MontaEndereco(jObject);
             conn.disconnect();
 
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {

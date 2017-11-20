@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_list_motoristas"
+    android:id="@+id/activity_list_pontos_parada"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.aluno.getre.ListMotoristasActivity">
+    tools:context="com.example.aluno.getre.ListPontosParadaActivity">
 
     <LinearLayout
         android:orientation="vertical"
@@ -20,16 +20,31 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="57dp">
+            android:layout_height="40dp">
 
             <TextView
-                android:text="Lista de Motoristas"
+                android:text="Lista de Pontos de Parada"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView4"
                 android:layout_weight="1"
                 android:textAlignment="center"
                 android:textSize="24sp"
+                android:textColorLink="?attr/actionMenuTextColor" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+            <TextView
+                android:text="Entrega N°"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/frmLstPontosParada_txtViewTitle"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:textSize="18sp"
                 android:textColorLink="?attr/actionMenuTextColor" />
         </LinearLayout>
 
@@ -42,20 +57,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/darker_gray"
-                android:id="@+id/frmLstMotoristas_lstVMotoristas" />
+                android:id="@+id/frmLstPontosParada_lstVPontosParada" />
         </LinearLayout>
-
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="57dp">
+            android:layout_height="40dp">
 
 
             <Button
                 android:text="Voltar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/frmLstMotoristas_btnVoltar" />
+                android:id="@+id/frmLstPontosParada_btnVoltar" />
         </LinearLayout>
+
     </LinearLayout>
+
 </RelativeLayout>

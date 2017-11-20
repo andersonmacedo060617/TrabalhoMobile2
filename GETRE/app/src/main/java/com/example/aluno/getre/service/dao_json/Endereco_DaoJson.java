@@ -24,7 +24,7 @@ public class Endereco_DaoJson {
         endereco.setDescricao(json_data.getString("descricao"));
         endereco.setDetalhe(json_data.getString("detalhe"));
         endereco.setKmFaltante(json_data.getDouble("kmFaltante"));
-        endereco.setKmPercorrido(json_data.getDouble("descricao"));
+        endereco.setKmPercorrido(json_data.getDouble("kmPercorrido"));
         endereco.setHorrarioToDate(json_data.getString("horrario").replace("=", ""));
 
         return endereco;

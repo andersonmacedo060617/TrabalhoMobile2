@@ -27,6 +27,10 @@ public class Entrega implements Serializable {
     private boolean entregaAberta;
     private Date cadastro;
 
+    public Entrega() {
+        this.registroParadas = new ArrayList<>();
+    }
+
     public int getId() {
         return id;
     }
