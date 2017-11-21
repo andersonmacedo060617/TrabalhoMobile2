@@ -4,6 +4,7 @@ import com.example.aluno.getre.model.Administrador;
 import com.example.aluno.getre.model.Cliente;
 import com.example.aluno.getre.model.Motorista;
 import com.example.aluno.getre.model.Usuario;
+import com.example.aluno.getre.model.enums.ETipoUsuario;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,5 +48,33 @@ public class Usuario_DaoJson {
         return u;
     }
 
+    public JSONObject MontaObjJson(Usuario usuario) throws JSONException {
+//        "id":1,
+//        "nome":"Zezin",
+//        "email":"ze@ze",
+//        "login":"ze",
+//        "senha":"123",
+//        "ativo":true,
+//        "cadastro":"=13/11/2016 12:00:00",
+//        "tipo":"CLIENTE"
+        JSONObject jsonObject = new JSONObject();
+
+        if(usuario.getTipoUsuario() == ETipoUsuario.Motorista){
+            jsonObject.put("tipo", "MOTORISTA");
+        }else if(usuario.getTipoUsuario() == ETipoUsuario.Administrador){
+            jsonObject.put("tipo", "ADMIN");
+        }else{
+            jsonObject.put("tipo", "CLIENTE");
+        }
+
+        jsonObject.put("nome", usuario.getNome());
+        jsonObject.put("email", usuario.getEmail());
+        jsonObject.put("login", usuario.getLogin());
+        jsonObject.put("senha", usuario.getSenha());
+        jsonObject.put("ativo", usuario.isAtivo());
+        jsonObject.put("cadastro", "="+usuario.getCadastroStr());
+
+        return jsonObject;
+    }
 
 }

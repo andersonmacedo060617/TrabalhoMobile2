@@ -45,21 +45,30 @@ public class LoginActivity extends AppCompatActivity {
                 senha = edtSenha.getText().toString();
                 Usuario u = null;
 
+
                 try {
-                    List<Usuario> lstUsuarios = new AllUsuariosThread().execute().get();
-
-                    for(Usuario user : lstUsuarios){
-                        if(user.getLogin().equals(login)
-                                && user.getSenha().equals(senha)){
-                            u = user;
-                        }
-                    }
-
+                    u = new FindLoginSenhaThread().execute(login, senha).get();
                 } catch (InterruptedException e) {
                     Toast.makeText(getApplicationContext(), "Falha ao Logar \r\n" + e.getMessage(), Toast.LENGTH_SHORT).show();
                 } catch (ExecutionException e) {
                     Toast.makeText(getApplicationContext(), "Falha ao Logar \r\n" + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
+
+//                try {
+//                    List<Usuario> lstUsuarios = new AllUsuariosThread().execute().get();
+//
+//                    for(Usuario user : lstUsuarios){
+//                        if(user.getLogin().equals(login)
+//                                && user.getSenha().equals(senha)){
+//                            u = user;
+//                        }
+//                    }
+//
+//                } catch (InterruptedException e) {
+//                    Toast.makeText(getApplicationContext(), "Falha ao Logar \r\n" + e.getMessage(), Toast.LENGTH_SHORT).show();
+//                } catch (ExecutionException e) {
+//                    Toast.makeText(getApplicationContext(), "Falha ao Logar \r\n" + e.getMessage(), Toast.LENGTH_SHORT).show();
+//                }
 
                 if(u == null){
                     edtSenha.setText("");

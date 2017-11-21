@@ -15,34 +15,33 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.text.ParseException;
 
-
 /**
- * Created by Anderson2 on 15/11/2017.
+ * Created by aluno on 20/11/2017.
  */
 
-public class FindLoginSenhaThread extends AsyncTask<String, Void, Usuario> {
-
+public class SaveUsuarioThread extends AsyncTask<Usuario, Void, Usuario>{
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
-    protected Usuario doInBackground(String... strings) {
+    protected Usuario doInBackground(Usuario... user) {
         String urll = "https://service.davesmartins.com.br/api/usuarios/login";
 
         HttpURLConnection conn = null;
         Usuario u = null;
-        try {
 
-            URL url = new URL(urll);
+        URL url = null;
+        try {
+            url = new URL(urll);
+
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
 
-            String jsonStr ="{\"login\":\""+ strings[0] +"\",\"senha\":\""+ strings[1] + "\"}";
+            String jsonStr = new Usuario_DaoJson().MontaObjJson(user[0]).toString();
 
             conn.setRequestMethod("POST");
             conn.setDoOutput(true);
@@ -63,24 +62,22 @@ public class FindLoginSenhaThread extends AsyncTask<String, Void, Usuario> {
                 }
                 String linha = sb.toString();
                 JSONObject objJson = new JSONObject(linha);
-                if(!objJson.get("tipo").toString().isEmpty()){
+                if (!objJson.get("tipo").toString().isEmpty()) {
                     u = new Usuario_DaoJson().MontaUsuario(objJson);
                 }
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
-
-
         } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (ProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
-        return u;
+        return null;
     }
 }
