@@ -12,6 +12,7 @@ import com.example.aluno.getre.model.Administrador;
 import com.example.aluno.getre.model.Cliente;
 import com.example.aluno.getre.model.Motorista;
 import com.example.aluno.getre.model.Usuario;
+import com.example.aluno.getre.model.enums.ECrud;
 import com.example.aluno.getre.model.enums.ETipoUsuario;
 import com.example.aluno.getre.service.usuario_service.AllUsuariosThread;
 import com.example.aluno.getre.service.usuario_service.FindLoginSenhaThread;
@@ -21,13 +22,22 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class LoginActivity extends AppCompatActivity {
-    Button btnLogar;
+    Button btnLogar, btnCadastrar;
     TextView edtLogin, edtSenha;
+    final int CAD_VIEW_USUARIO = 1;
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == 1){
+            Toast.makeText(getApplicationContext(), "Usuario cadastrado com sucesso!", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -88,11 +98,24 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        btnCadastrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent itn = new Intent(getApplicationContext(), CadViewUsuarioActivity.class);
+                itn.putExtra("tipoUsuario", ETipoUsuario.Cliente);
+                itn.putExtra("op", ECrud.create);
+                startActivityForResult(itn, CAD_VIEW_USUARIO);
+            }
+        });
+
+
+
 
     }
 
     private void BindFields() {
         btnLogar = (Button) findViewById(R.id.frmLogin_btnLogar);
+        btnCadastrar = (Button) findViewById(R.id.frmLogin_btnCadastra);
 
         edtLogin = (TextView) findViewById(R.id.frmLogin_edtLogin);
         edtSenha = (TextView) findViewById(R.id.frmLogin_edtSenha);

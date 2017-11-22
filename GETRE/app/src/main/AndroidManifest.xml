@@ -35,7 +35,8 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".CadViewPontosParadaActivity" />
-        <activity android:name=".ListPontosParadaActivity"></activity>
+        <activity android:name=".ListPontosParadaActivity" />
+        <activity android:name=".CadViewUsuarioActivity"></activity>
     </application>
 
 </manifest>

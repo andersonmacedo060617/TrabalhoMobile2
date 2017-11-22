@@ -109,7 +109,15 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
+            <Button
+                android:text="Cadastre-se"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/frmLogin_btnCadastra"
+                android:background="@android:color/holo_green_dark"
+                android:textColor="@android:color/background_light"
+                tools:textStyle="bold"
+                android:textSize="18sp" />
         </LinearLayout>
 
     </LinearLayout>
