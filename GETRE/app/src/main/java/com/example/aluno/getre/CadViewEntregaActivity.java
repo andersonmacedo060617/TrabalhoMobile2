@@ -54,6 +54,7 @@ public class CadViewEntregaActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent itn = new Intent(getApplicationContext(), ListPontosParadaActivity.class);
                 itn.putExtra("idEntrega", entrega.getId());
+                itn.putExtra("usuario", user);
                 startActivityForResult(itn, VIEW_LIST_PONTOS_PARADA);
             }
         });

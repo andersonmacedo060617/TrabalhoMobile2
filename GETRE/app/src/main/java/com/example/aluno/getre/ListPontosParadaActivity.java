@@ -14,7 +14,9 @@ import android.widget.Toast;
 import com.example.aluno.getre.model.Endereco;
 import com.example.aluno.getre.model.Entrega;
 import com.example.aluno.getre.model.PontoParada;
+import com.example.aluno.getre.model.Usuario;
 import com.example.aluno.getre.model.enums.ECrud;
+import com.example.aluno.getre.model.enums.ETipoUsuario;
 import com.example.aluno.getre.service.pontosParada_service.FindPontosParadaEntregaThread;
 
 import java.util.ArrayList;
@@ -24,17 +26,31 @@ public class ListPontosParadaActivity extends AppCompatActivity {
     ListView lstViewPontosParada;
     TextView txtViewTitle;
     ArrayList<Endereco> lstPontoParada;
-    Button btnVoltar;
+    Button btnVoltar, btnAddPontoParada;
     final int VIEW_PONTOS_PARADA = 8;
+    Usuario user = null;
+    int idEntrega;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == 1){
+            Toast.makeText(getApplicationContext(), "Ponto cadastrado com sucesso!", Toast.LENGTH_LONG).show();
+        }
+        CarregarLstViewPontosParada(idEntrega);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_pontos_parada);
 
+        idEntrega = getIntent().getIntExtra("idEntrega", 0);
+
         Biding();
 
-        int idEntrega = getIntent().getIntExtra("idEntrega", 0);
+
+
         if(idEntrega == 0){
             setResult(0);
             finish();
@@ -49,6 +65,7 @@ public class ListPontosParadaActivity extends AppCompatActivity {
                         CadViewPontosParadaActivity.class);
                 itn.putExtra("op", ECrud.view);
                 itn.putExtra("idEndereco", lstPontoParada.get(i).getId());
+                itn.putExtra("idEntrega", idEntrega);
 
                 startActivityForResult(itn, VIEW_PONTOS_PARADA);
             }
@@ -61,7 +78,17 @@ public class ListPontosParadaActivity extends AppCompatActivity {
             }
         });
 
+        btnAddPontoParada.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent itn = new Intent(getApplicationContext(), CadViewPontosParadaActivity.class);
+                itn.putExtra("op", ECrud.create);
+                itn.putExtra("idEntrega", idEntrega);
+                startActivityForResult(itn, VIEW_PONTOS_PARADA);
+            }
+        });
     }
+
 
 
 
@@ -94,8 +121,15 @@ public class ListPontosParadaActivity extends AppCompatActivity {
     }
 
     private void Biding() {
+        user = (Usuario) getIntent().getExtras().getSerializable("usuario");
         lstViewPontosParada = (ListView) findViewById(R.id.frmLstPontosParada_lstVPontosParada);
         txtViewTitle = (TextView) findViewById(R.id.frmLstPontosParada_txtViewTitle);
         btnVoltar = (Button) findViewById(R.id.frmLstPontosParada_btnVoltar);
+        btnAddPontoParada = (Button) findViewById(R.id.frmLstPontosParada_btnAddPontoParada);
+        if(user.getTipoUsuario() == ETipoUsuario.Motorista){
+            btnAddPontoParada.setVisibility(View.VISIBLE);
+        }else{
+            btnAddPontoParada.setVisibility(View.INVISIBLE);
+        }
     }
 }

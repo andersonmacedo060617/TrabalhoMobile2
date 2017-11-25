@@ -59,6 +59,9 @@ public class Usuario_DaoJson {
 //        "tipo":"CLIENTE"
         JSONObject jsonObject = new JSONObject();
 
+        if(usuario.getId() != 0){
+            jsonObject.put("id", usuario.getId());
+        }
         if(usuario.getTipoUsuario() == ETipoUsuario.Motorista){
             jsonObject.put("tipo", "MOTORISTA");
         }else if(usuario.getTipoUsuario() == ETipoUsuario.Administrador){

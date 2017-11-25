@@ -8,14 +8,21 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.aluno.getre.model.Endereco;
+import com.example.aluno.getre.model.Entrega;
 import com.example.aluno.getre.model.enums.ECrud;
+import com.example.aluno.getre.service.entrega_service.FindEntregaByIdThread;
+import com.example.aluno.getre.service.entrega_service.SaveEntregaThread;
 import com.example.aluno.getre.service.pontosParada_service.FindEnderecoByIdThread;
+import com.example.aluno.getre.service.pontosParada_service.FindPontosParadaEntregaThread;
+import com.example.aluno.getre.service.pontosParada_service.SaveEnderecoThread;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
 public class CadViewPontosParadaActivity extends AppCompatActivity {
     EditText edtId, edtDescricao, edtDetalhes, edtKmFaltante, edtKmPercorrido, edtHorario;
-    Button btnVoltar;
+    Button btnVoltar, btnGravar;
     ECrud op;
     Endereco endereco;
 
@@ -27,21 +34,62 @@ public class CadViewPontosParadaActivity extends AppCompatActivity {
         Biding();
 
         op = (ECrud) getIntent().getSerializableExtra("op");
-        int idEndereco = getIntent().getIntExtra("idEndereco", 0);
+        final int idEndereco = getIntent().getIntExtra("idEndereco", 0);
+        final int idEntrega = getIntent().getIntExtra("idEntrega", 0);
 
-
-        if(idEndereco == 0){
-            finish();
-        }else{
+        if(idEndereco != 0){
             ConfigViewOperation();
             loadData(idEndereco);
+        }
+
+        if(idEntrega == 0){
+            setResult(0);
+            finish();
         }
 
         btnVoltar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setResult(1);
+                setResult(0);
                 finish();
+            }
+        });
+
+        btnGravar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(idEntrega == 0){
+                    setResult(0);
+                    finish();
+                }else{
+                    endereco = new Endereco();
+                    endereco.setDescricao(edtDescricao.getText().toString());
+                    endereco.setDetalhe(edtDetalhes.getText().toString());
+                    endereco.setKmFaltante(Integer.parseInt(edtKmFaltante.getText().toString()));
+                    endereco.setKmPercorrido(Integer.parseInt(edtKmPercorrido.getText().toString()));
+                    endereco.setHorrario(new Date());
+
+                    try {
+                        endereco = new SaveEnderecoThread().execute(endereco).get();
+                        Entrega entrega = new FindEntregaByIdThread().execute(Integer.toString(idEntrega)).get();
+                        entrega.setRegistroParadas(new FindPontosParadaEntregaThread().execute(Integer.toString(entrega.getId())).get());
+                        entrega.getRegistroParadas().add(endereco);
+                        entrega = new SaveEntregaThread().execute(entrega).get();
+
+
+                        setResult(1);
+                        finish();
+
+
+                    } catch (InterruptedException e) {
+                        Toast.makeText(getApplicationContext(), "Falha no cadastro \r\n" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    } catch (ExecutionException e) {
+                        Toast.makeText(getApplicationContext(), "Falha no cadastro \r\n" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+
+
+
+                }
             }
         });
 
@@ -55,6 +103,7 @@ public class CadViewPontosParadaActivity extends AppCompatActivity {
         edtKmFaltante = (EditText) findViewById(R.id.frmCadViewPontoParada_KmFaltante);
         edtKmPercorrido = (EditText) findViewById(R.id.frmCadViewPontoParada_KmPercorrido);
         btnVoltar = (Button) findViewById(R.id.frmCadViewPontoParada_btnVoltar);
+        btnGravar = (Button) findViewById(R.id.frmCadViewPontoParada_btnGravar);
         edtId.setEnabled(false);
     }
 
@@ -91,5 +140,6 @@ public class CadViewPontosParadaActivity extends AppCompatActivity {
         edtKmPercorrido.setEnabled(b);
         edtKmFaltante.setEnabled(b);
         edtHorario.setEnabled(b);
+        btnGravar.setVisibility((b?View.VISIBLE:View.INVISIBLE));
     }
 }

@@ -1,5 +1,6 @@
 package com.example.aluno.getre;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -24,6 +25,8 @@ public class CadViewUsuarioActivity extends AppCompatActivity {
     Button btnGravar, btnVoltar;
     ETipoUsuario tipoUsuario;
     ECrud op;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,9 +80,9 @@ public class CadViewUsuarioActivity extends AppCompatActivity {
                         }
 
                     } catch (InterruptedException e) {
-                        Toast.makeText(getApplicationContext(), "Falha ao Logar \r\n" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Falha no cadastro \r\n" + e.getMessage(), Toast.LENGTH_SHORT).show();
                     } catch (ExecutionException e) {
-                        Toast.makeText(getApplicationContext(), "Falha ao Logar \r\n" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Falha no cadastro \r\n" + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
 

@@ -65,11 +65,30 @@
             android:layout_height="40dp">
 
 
-            <Button
-                android:text="Voltar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/frmLstPontosParada_btnVoltar" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="178dp"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:text="Voltar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/frmLstPontosParada_btnVoltar" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="178dp"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:text="Add Parada"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/frmLstPontosParada_btnAddPontoParada" />
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>

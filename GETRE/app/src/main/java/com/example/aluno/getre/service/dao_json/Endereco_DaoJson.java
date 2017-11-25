@@ -30,4 +30,24 @@ public class Endereco_DaoJson {
         return endereco;
 
     }
+
+    public JSONObject MontaObJson(Endereco endereco) throws JSONException {
+//        "id":1,
+//        "descricao":"Lanchonete MCPizza",
+//        "detalhe":"Lanchonete",
+//        "kmFaltante":3.0,
+//        "kmPercorrido":0.0,
+//        "horrario":"=13/11/2017 12:00:00"
+        JSONObject jsonObject = new JSONObject();
+        if(endereco.getId() != 0){
+            jsonObject.put("id", endereco.getId());
+        }
+        jsonObject.put("descricao", endereco.getDescricao());
+        jsonObject.put("detalhe", endereco.getDetalhe());
+        jsonObject.put("kmFaltante", endereco.getKmFaltante());
+        jsonObject.put("kmPercorrido", endereco.getKmPercorrido());
+        jsonObject.put("horrario", "="+endereco.getHorrarioStr());
+
+        return  jsonObject;
+    }
 }

@@ -9,6 +9,7 @@ import com.example.aluno.getre.service.dao_json.Entrega_DaoJson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -23,16 +24,17 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
- * Created by aluno on 17/11/2017.
+ * Created by Anderson2 on 25/11/2017.
  */
 
-public class AllEntregasThead extends AsyncTask<String, Void, ArrayList<Entrega>> {
+public class FindEntregaByIdThread extends AsyncTask<String, Void, Entrega> {
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
-    protected ArrayList<Entrega> doInBackground(String... strings) {
-        String urll = "https://service.davesmartins.com.br/api/entregas";
+    protected Entrega doInBackground(String... idEntregas) {
+        String urll = "https://service.davesmartins.com.br/api/entregas/" + idEntregas[0];
 
-        ArrayList<Entrega> resposta = new ArrayList<>();
+        Entrega resposta = null;
         HttpURLConnection conn = null;
 
         try {
@@ -55,11 +57,10 @@ public class AllEntregasThead extends AsyncTask<String, Void, ArrayList<Entrega>
             String linha = sb.toString();
 
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            JSONArray jArray = new JSONArray(linha);
+            JSONObject jObj = new JSONObject(linha);
 
-            for(int i = 0; i< jArray.length(); i++){
-                resposta.add(new Entrega_DaoJson().MontaEntrega(jArray.getJSONObject(i)));
-            }
+            resposta = new Entrega_DaoJson().MontaEntrega(jObj);
+
 
             conn.disconnect();
 

@@ -1,5 +1,6 @@
 package com.example.aluno.getre;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.aluno.getre.model.Usuario;
+import com.example.aluno.getre.model.enums.ECrud;
 import com.example.aluno.getre.model.enums.ETipoUsuario;
 import com.example.aluno.getre.service.usuario_service.AllUsuariosThread;
 
@@ -18,7 +20,18 @@ import java.util.concurrent.ExecutionException;
 public class ListMotoristasActivity extends AppCompatActivity {
 
     ListView lstViewMotoristas;
-    Button btnVoltar;
+    Button btnVoltar, btnAddMotorista;
+    final int CAD_VIEW_USUARIO = 1;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == 1){
+            Toast.makeText(getApplicationContext(), "Usuario cadastrado com sucesso!", Toast.LENGTH_LONG).show();
+        }
+        CarregarLstViewMotoristas();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +47,16 @@ public class ListMotoristasActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        btnAddMotorista.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent itn = new Intent(getApplicationContext(), CadViewUsuarioActivity.class);
+                itn.putExtra("tipoUsuario", ETipoUsuario.Motorista);
+                itn.putExtra("op", ECrud.create);
+                startActivityForResult(itn, CAD_VIEW_USUARIO);
+            }
+        });
     }
 
     /*
@@ -42,6 +65,7 @@ public class ListMotoristasActivity extends AppCompatActivity {
     private void Biding() {
         lstViewMotoristas = (ListView) findViewById(R.id.frmLstMotoristas_lstVMotoristas);
         btnVoltar = (Button)findViewById(R.id.frmLstMotoristas_btnVoltar);
+        btnAddMotorista = (Button) findViewById(R.id.frmLstMotoristas_btnAddMotorista);
     }
 
     /*

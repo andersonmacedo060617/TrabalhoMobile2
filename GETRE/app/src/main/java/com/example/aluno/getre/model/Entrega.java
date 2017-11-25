@@ -125,12 +125,12 @@ public class Entrega implements Serializable {
     }
 
     public String getCadastroStr(){
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
         return sdf.format(this.cadastro);
     }
 
     public void setCadastroToDate(String data) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
         this.cadastro = sdf.parse(data);
     }
 

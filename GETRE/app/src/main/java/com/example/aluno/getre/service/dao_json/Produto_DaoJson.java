@@ -22,4 +22,20 @@ public class Produto_DaoJson {
 
         return produto;
     }
+
+    public JSONObject MontaObjJson(Produto produto) throws JSONException {
+//        "id":3,
+//        "descricao":"Pizza",
+//        "peso":0.4
+
+        JSONObject jsonObject = new JSONObject();
+
+        if(produto.getId() != 0){
+            jsonObject.put("id", produto.getId());
+        }
+        jsonObject.put("descricao", produto.getDescricao());
+        jsonObject.put("peso", produto.getPeso());
+
+        return  jsonObject;
+    }
 }

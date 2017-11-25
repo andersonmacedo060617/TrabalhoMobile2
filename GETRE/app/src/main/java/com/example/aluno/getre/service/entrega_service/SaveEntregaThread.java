@@ -1,11 +1,9 @@
-package com.example.aluno.getre.service.usuario_service;
+package com.example.aluno.getre.service.entrega_service;
 
 import android.os.AsyncTask;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 
-import com.example.aluno.getre.model.Usuario;
-import com.example.aluno.getre.service.dao_json.Usuario_DaoJson;
+import com.example.aluno.getre.model.Entrega;
+import com.example.aluno.getre.service.dao_json.Entrega_DaoJson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,32 +15,29 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.text.ParseException;
 
 /**
- * Created by aluno on 20/11/2017.
+ * Created by Anderson2 on 25/11/2017.
  */
 
-public class SaveUsuarioThread extends AsyncTask<Usuario, Void, Usuario>{
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+public class SaveEntregaThread extends AsyncTask<Entrega, Void, Entrega> {
+
     @Override
-    protected Usuario doInBackground(Usuario... user) {
-        String urll = "https://service.davesmartins.com.br/api/usuarios";
+    protected Entrega doInBackground(Entrega... entregas) {
+        String urll = "https://service.davesmartins.com.br/api/referencia";
 
         HttpURLConnection conn = null;
-        Usuario u = null;
-
         URL url = null;
+        Entrega ent = null;
+
         try {
             url = new URL(urll);
-
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
 
-            String jsonStr = new Usuario_DaoJson().MontaObjJson(user[0]).toString();
-
+            String jsonStr = new Entrega_DaoJson().MontaObJson(entregas[0]).toString();
             conn.setRequestMethod("POST");
             conn.setDoOutput(true);
             conn.setDoInput(true);
@@ -51,25 +46,19 @@ public class SaveUsuarioThread extends AsyncTask<Usuario, Void, Usuario>{
             conn.getOutputStream().write(jsonStr.getBytes("UTF-8"));
 
             InputStream in = new BufferedInputStream(conn.getInputStream());
-
             StringBuilder sb = new StringBuilder();
 
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(in));) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 
-                String nextLine = "";
-                while ((nextLine = reader.readLine()) != null) {
-                    sb.append(nextLine);
-                }
-                String linha = sb.toString();
-                JSONObject objJson = new JSONObject(linha);
-                if (!objJson.get("tipo").toString().isEmpty()) {
-                    u = new Usuario_DaoJson().MontaUsuario(objJson);
-                }
-
+            String nextLine = "";
+            while((nextLine = reader.readLine()) != null){
+                sb.append(nextLine);
             }
+            String linha = sb.toString();
+            JSONObject objJson = new JSONObject(linha);
+            ent = new Entrega_DaoJson().MontaEntrega(objJson);
+
         } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (ProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
@@ -78,6 +67,8 @@ public class SaveUsuarioThread extends AsyncTask<Usuario, Void, Usuario>{
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return u;
+
+
+        return ent;
     }
 }
