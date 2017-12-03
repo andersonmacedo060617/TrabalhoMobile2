@@ -23,16 +23,19 @@ public class ListEntregasActivity extends AppCompatActivity {
     ListView lstViewEntregas;
     Button btnVoltar;
     ArrayList<Entrega> lstEntregas;
+    boolean entregasDisponiveis = false;
     final int VIEW_ENTREGA = 5;
     Usuario user;
+    int[] vetorPosicoes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_entregas);
         user = (Usuario)getIntent().getExtras().getSerializable("usuario");
-
         Binding();
+
+        entregasDisponiveis = getIntent().getExtras().getBoolean("EntregasDisponiveis", false);
 
         CarregarLstViewEntregas();
 
@@ -42,9 +45,9 @@ public class ListEntregasActivity extends AppCompatActivity {
                 Intent itn = new Intent(getApplicationContext(),
                         CadViewEntregaActivity.class);
                 itn.putExtra("op", ECrud.view);
-                itn.putExtra("entrega", lstEntregas.get(i));
+                itn.putExtra("entrega", lstEntregas.get(vetorPosicoes[i]));
                 itn.putExtra("usuario", user);
-
+                itn.putExtra("EntregaDisponivel", entregasDisponiveis);
                 startActivityForResult(itn, VIEW_ENTREGA);
             }
         });
@@ -80,28 +83,55 @@ public class ListEntregasActivity extends AppCompatActivity {
 
         //Transforma em vetor
         String[] vetorEntregas = new String[lstEntregas.size()];
+        vetorPosicoes = new int[lstEntregas.size()];
         int i = 0;
+        int posicao = 0;
 
         if (user.getTipoUsuario() == ETipoUsuario.Cliente) {
             for (Entrega e : lstEntregas) {
                 if (e.getCliente().getId() == user.getId()) {
-                    vetorEntregas[i++] = e.getId() + " - Cliente: " + e.getCliente().getNome() + " - Produto: " + e.getProduto().getDescricao() +
+                    vetorEntregas[i] = e.getId() + " - Cliente: " + e.getCliente().getNome() + " - Produto: " + e.getProduto().getDescricao() +
                             " - Status: " + (e.isEntregaAberta() ? "Em aberto" : "Concluido");
+                    vetorPosicoes[i] = e.getId();
+                    i = i+1;
                 }
+                posicao = posicao+1;
             }
 
         } else if(user.getTipoUsuario() == ETipoUsuario.Motorista){
-            for (Entrega e : lstEntregas) {
-                if (e.getMotorista().getId() == user.getId()) {
-                    vetorEntregas[i++] = e.getId() + " - Cliente: " + e.getCliente().getNome() + " - Produto: " + e.getProduto().getDescricao() +
-                            " - Status: " + (e.isEntregaAberta() ? "Em aberto" : "Concluido");
+            if(entregasDisponiveis){
+                for (Entrega e : lstEntregas) {
+                    if (e.getMotorista().getId() == 0) {
+                        vetorEntregas[i] = e.getId() + " - Cliente: " + e.getCliente().getNome() + " - Produto: " + e.getProduto().getDescricao() +
+                                " - Status: " + (e.isEntregaAberta() ? "Em aberto" : "Concluido");
+                        vetorPosicoes[i] = posicao;
+                        i = i+1;
+                    }
+                    posicao = posicao+1;
+                }
+            }else{
+                for (Entrega e : lstEntregas) {
+                    if (e.getMotorista().getId() == user.getId()) {
+                        vetorEntregas[i] = e.getId() + " - Cliente: " + e.getCliente().getNome() + " - Produto: " + e.getProduto().getDescricao() +
+                                " - Status: " + (e.isEntregaAberta() ? "Em aberto" : "Concluido");
+                        vetorPosicoes[i] = posicao;
+                        i = i+1;
+                    }
+
+                    posicao = posicao+1;
                 }
             }
+
         }else{
             for(Entrega e : lstEntregas){
-                vetorEntregas[i++] = e.getId() + " - Cliente: " + e.getCliente().getNome() + " - Produto: " + e.getProduto().getDescricao() +
+                vetorEntregas[i] = e.getId() + " - Cliente: " + e.getCliente().getNome() + " - Produto: " + e.getProduto().getDescricao() +
                         " - Status: " + (e.isEntregaAberta()?"Em aberto":"Concluido");
+                vetorPosicoes[i] = posicao;
+                i = i+1;
+                posicao = posicao+1;
             }
+
+
         }
 
 

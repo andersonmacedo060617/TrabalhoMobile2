@@ -36,7 +36,10 @@
 
         <activity android:name=".CadViewPontosParadaActivity" />
         <activity android:name=".ListPontosParadaActivity" />
-        <activity android:name=".CadViewUsuarioActivity"></activity>
+        <activity android:name=".CadViewUsuarioActivity" />
+        <activity android:name=".NewEntregaActivity" />
+        <activity android:name=".CadEnderecoActivity" />
+        <activity android:name=".CadProdutoActivity"></activity>
     </application>
 
 </manifest>

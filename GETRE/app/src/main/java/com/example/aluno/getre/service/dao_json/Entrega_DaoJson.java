@@ -37,7 +37,12 @@ public class Entrega_DaoJson {
         entrega.setEnderecoOrigem(new Endereco_DaoJson().MontaEndereco(json_data.getJSONObject("origem")));
         entrega.setEnderecoDestino(new Endereco_DaoJson().MontaEndereco(json_data.getJSONObject("destino")));
         entrega.setCliente((Cliente) new Usuario_DaoJson().MontaUsuario(json_data.getJSONObject("cliente")));
-        entrega.setMotorista((Motorista) new Usuario_DaoJson().MontaUsuario(json_data.getJSONObject("motorista")));
+        if(!json_data.isNull("motorista")){
+            entrega.setMotorista((Motorista) new Usuario_DaoJson().MontaUsuario(json_data.getJSONObject("motorista")));
+        }else{
+            entrega.setMotorista(new Motorista());
+        }
+
 
         JSONArray arrPontos = json_data.getJSONArray("pontos");
         for (int i = 0; i < arrPontos.length(); i++){
@@ -75,7 +80,10 @@ public class Entrega_DaoJson {
         jsonObject.put("origem", new Endereco_DaoJson().MontaObJson(entrega.getEnderecoOrigem()));
         jsonObject.put("destino", new Endereco_DaoJson().MontaObJson(entrega.getEnderecoDestino()));
         jsonObject.put("cliente", new Usuario_DaoJson().MontaObjJson(entrega.getCliente()));
-        jsonObject.put("motorista", new Usuario_DaoJson().MontaObjJson(entrega.getMotorista()));
+        if(entrega.getMotorista().getId() != 0){
+            jsonObject.put("motorista", new Usuario_DaoJson().MontaObjJson(entrega.getMotorista()));
+        }
+
         jsonObject.put("produto", new Produto_DaoJson().MontaObjJson(entrega.getProduto()));
         jsonObject.put("valor", entrega.getValor());
         jsonObject.put("kmPercorrido", entrega.getKmPercorrido());

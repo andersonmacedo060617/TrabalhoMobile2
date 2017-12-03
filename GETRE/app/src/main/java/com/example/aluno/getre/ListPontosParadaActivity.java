@@ -17,6 +17,7 @@ import com.example.aluno.getre.model.PontoParada;
 import com.example.aluno.getre.model.Usuario;
 import com.example.aluno.getre.model.enums.ECrud;
 import com.example.aluno.getre.model.enums.ETipoUsuario;
+import com.example.aluno.getre.service.entrega_service.FindEntregaByIdThread;
 import com.example.aluno.getre.service.pontosParada_service.FindPontosParadaEntregaThread;
 
 import java.util.ArrayList;
@@ -94,7 +95,8 @@ public class ListPontosParadaActivity extends AppCompatActivity {
 
     private void CarregarLstViewPontosParada(int idEntrega) {
         try {
-            lstPontoParada = new FindPontosParadaEntregaThread().execute(Integer.toString(idEntrega)).get();
+            Entrega entrega = new FindEntregaByIdThread().execute(Integer.toString(idEntrega)).get();
+            lstPontoParada = entrega.getRegistroParadas();
         } catch (InterruptedException e) {
             Toast.makeText(getApplicationContext(), "Falha na consulta \r\n Erro: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         } catch (ExecutionException e) {

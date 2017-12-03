@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GETRE</string>
+    <string name="title_activity_cad_entrega">CadEntrega</string>
 </resources>

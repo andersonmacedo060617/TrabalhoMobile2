@@ -11,7 +11,7 @@ import com.example.aluno.getre.model.Usuario;
 
 public class MainMotoristaActivity extends AppCompatActivity {
     TextView txtBemVindo;
-    Button btnMinhasEntregas;
+    Button btnMinhasEntregas, btnEntregasDiponiveis;
     final int LOGIN_VIEW = 1;
     final int LIST_ENTREGAS_VIEW = 42;
     Usuario user;
@@ -41,11 +41,22 @@ public class MainMotoristaActivity extends AppCompatActivity {
                 startActivityForResult(itn, LIST_ENTREGAS_VIEW);
             }
         });
+
+        btnEntregasDiponiveis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent itn = new Intent(getApplicationContext(), ListEntregasActivity.class);
+                itn.putExtra("usuario", user);
+                itn.putExtra("EntregasDisponiveis", true);
+                startActivityForResult(itn, LIST_ENTREGAS_VIEW);
+            }
+        });
     }
 
     private void Binding() {
         txtBemVindo = (TextView) findViewById(R.id.frmMotorista_bemVindo);
         btnMinhasEntregas = (Button)findViewById(R.id.frmMainMotorista_btnEntregas);
+        btnEntregasDiponiveis = (Button) findViewById(R.id.frmMainMotorista_btnEntregasDisponiveis);
     }
 
     private void CallPrincipalView() {

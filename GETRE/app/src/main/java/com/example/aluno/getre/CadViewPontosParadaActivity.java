@@ -72,7 +72,6 @@ public class CadViewPontosParadaActivity extends AppCompatActivity {
                     try {
                         endereco = new SaveEnderecoThread().execute(endereco).get();
                         Entrega entrega = new FindEntregaByIdThread().execute(Integer.toString(idEntrega)).get();
-                        entrega.setRegistroParadas(new FindPontosParadaEntregaThread().execute(Integer.toString(entrega.getId())).get());
                         entrega.getRegistroParadas().add(endereco);
                         entrega = new SaveEntregaThread().execute(entrega).get();
 

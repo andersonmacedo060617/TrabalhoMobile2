@@ -15,7 +15,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:weightSum="1">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -48,13 +49,27 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="67dp">
+            android:layout_height="67dp"
+            android:layout_weight="0.07">
 
             <Button
                 android:text="Minhas Entregas"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="70dp"
                 android:id="@+id/frmMainCliente_btnEntregas"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="67dp">
+
+            <Button
+                android:text="Nova Entrega"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/frmMainCliente_btnNovaEntrega"
                 android:layout_weight="1" />
         </LinearLayout>
 

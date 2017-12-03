@@ -215,13 +215,39 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="41dp">
+            android:layout_height="wrap_content"
+            android:weightSum="1">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="149dp"
+                android:layout_height="62dp"
+                android:weightSum="1"
+                android:layout_weight="0.88">
+                <Button
+                    android:text="Pegar Entrega"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/frmCadViewEntrega_btnPegarEntrega1" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="115dp"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:text="Concluir Entrega"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/frmCadViewEntrega_btnConcluirEntrega" />
+            </LinearLayout>
+
 
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:weightSum="1">
 
             <LinearLayout
@@ -259,7 +285,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/frmCadViewEntrega_btnGravar"
-                    android:layout_weight="1"
                     android:visibility="visible" />
             </LinearLayout>
 

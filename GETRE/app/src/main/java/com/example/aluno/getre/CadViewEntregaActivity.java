@@ -8,21 +8,28 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.aluno.getre.model.Entrega;
+import com.example.aluno.getre.model.Motorista;
 import com.example.aluno.getre.model.Usuario;
 import com.example.aluno.getre.model.enums.ECrud;
+import com.example.aluno.getre.model.enums.ETipoUsuario;
+import com.example.aluno.getre.service.entrega_service.FindEntregaByIdThread;
+import com.example.aluno.getre.service.entrega_service.SaveEntregaThread;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
+
+import java.util.concurrent.ExecutionException;
 
 public class CadViewEntregaActivity extends AppCompatActivity {
     EditText edtId, edtCiente, edtMotorista, edtValor,
             edtKmPercorrido, edtEndOrigem, edtEndDestino,
             edtProduto;
     TextView txtViewTitle;
-    Button btnVoltar, btnGravar, btnParadas;
+    Button btnVoltar, btnGravar, btnParadas, btnPegarEntrega, btnConcluirEntrega;
     ECrud op;
     Usuario user;
     Entrega entrega;
@@ -37,8 +44,16 @@ public class CadViewEntregaActivity extends AppCompatActivity {
         Binding();
         op = (ECrud) getIntent().getExtras().getSerializable("op");
         user = (Usuario) getIntent().getExtras().getSerializable("usuario");
+
+        try {
+            loadData();
+        } catch (InterruptedException e) {
+            Toast.makeText(getApplicationContext(), "Falha na consulta \r\n Erro: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        } catch (ExecutionException e) {
+            Toast.makeText(getApplicationContext(), "Falha na consulta \r\n Erro: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
         ConfigViewOperation();
-        loadData();
 
         btnVoltar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +73,45 @@ public class CadViewEntregaActivity extends AppCompatActivity {
                 startActivityForResult(itn, VIEW_LIST_PONTOS_PARADA);
             }
         });
+
+        btnPegarEntrega.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(user.getTipoUsuario() == ETipoUsuario.Motorista){
+                    entrega.setMotorista((Motorista) user);
+                    try {
+                        entrega = new SaveEntregaThread().execute(entrega).get();
+                        loadData();
+                    } catch (InterruptedException e) {
+                        Toast.makeText(getApplicationContext(), "Falha ao Salvar \r\n Erro: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    } catch (ExecutionException e) {
+                        Toast.makeText(getApplicationContext(), "Falha ao Salvar \r\n Erro: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(getApplicationContext(), "Apenas Motoristas", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+        btnConcluirEntrega.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(entrega.getMotorista().getId() != 0){
+                    entrega.setEntregaAberta(false);
+                    try {
+                        entrega = new SaveEntregaThread().execute(entrega).get();
+                        loadData();
+                    } catch (InterruptedException e) {
+                        Toast.makeText(getApplicationContext(), "Falha ao Salvar \r\n Erro: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    } catch (ExecutionException e) {
+                        Toast.makeText(getApplicationContext(), "Falha ao Salvar \r\n Erro: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(getApplicationContext(), "Entrega Sem Motorista", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
 
@@ -73,7 +127,10 @@ public class CadViewEntregaActivity extends AppCompatActivity {
         btnGravar = (Button) findViewById(R.id.frmCadViewEntrega_btnGravar);
         btnVoltar = (Button) findViewById(R.id.frmCadViewEntrega_btnVoltar);
         txtViewTitle = (TextView)findViewById(R.id.frmCadViewEntrega_Title);
+
         btnParadas = (Button) findViewById(R.id.frmCadViewEntrega_btnParadas);
+        btnConcluirEntrega = (Button) findViewById(R.id.frmCadViewEntrega_btnConcluirEntrega);
+        btnPegarEntrega = (Button) findViewById(R.id.frmCadViewEntrega_btnPegarEntrega1);
     }
 
     private void ConfigViewOperation() {
@@ -98,11 +155,24 @@ public class CadViewEntregaActivity extends AppCompatActivity {
             edtEndDestino.setEnabled(false);
             edtProduto.setEnabled(false);
         }
+
+        if(entrega.getMotorista().getId()!= 0 && user.getTipoUsuario() == ETipoUsuario.Motorista){
+            btnConcluirEntrega.setVisibility(View.VISIBLE);
+        }else{
+            btnConcluirEntrega.setVisibility(View.INVISIBLE);
+        }
+
+        if(entrega.getMotorista().getId()== 0 && user.getTipoUsuario() == ETipoUsuario.Motorista){
+            btnPegarEntrega.setVisibility(View.VISIBLE);
+        }else{
+            btnPegarEntrega.setVisibility(View.INVISIBLE);
+        }
     }
 
-    private void loadData() {
+    private void loadData() throws ExecutionException, InterruptedException {
         if (op == ECrud.alter || op == ECrud.view || op == ECrud.delete) {
             entrega = (Entrega) getIntent().getExtras().getSerializable("entrega");
+            entrega = new FindEntregaByIdThread().execute(Integer.toString(entrega.getId())).get();
             edtId.setText(Integer.toString(entrega.getId()));
             edtCiente.setText(entrega.getCliente().getNome());
             edtMotorista.setText(entrega.getMotorista().getNome());
