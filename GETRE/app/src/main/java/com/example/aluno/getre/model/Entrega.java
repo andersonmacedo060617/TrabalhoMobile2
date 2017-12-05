@@ -125,13 +125,21 @@ public class Entrega implements Serializable {
     }
 
     public String getCadastroStr(){
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         return sdf.format(this.cadastro);
     }
 
     public void setCadastroToDate(String data) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         this.cadastro = sdf.parse(data);
+    }
+
+    public void CalculaKmTotal(){
+        double DistanciaTotal = 0;
+        for (Endereco ponto : registroParadas){
+            DistanciaTotal = DistanciaTotal + ponto.getKmPercorrido();
+        }
+        this.kmPercorrido = DistanciaTotal;
     }
 
 

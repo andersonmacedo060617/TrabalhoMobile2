@@ -59,7 +59,6 @@ public class CadViewEntregaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 setResult(1);
-
                 finish();
             }
         });
@@ -77,20 +76,33 @@ public class CadViewEntregaActivity extends AppCompatActivity {
         btnPegarEntrega.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(user.getTipoUsuario() == ETipoUsuario.Motorista){
-                    entrega.setMotorista((Motorista) user);
-                    try {
-                        entrega = new SaveEntregaThread().execute(entrega).get();
-                        loadData();
-                    } catch (InterruptedException e) {
-                        Toast.makeText(getApplicationContext(), "Falha ao Salvar \r\n Erro: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    } catch (ExecutionException e) {
-                        Toast.makeText(getApplicationContext(), "Falha ao Salvar \r\n Erro: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }else{
-                    Toast.makeText(getApplicationContext(), "Apenas Motoristas", Toast.LENGTH_SHORT).show();
-                }
+                try{
+                    Double.parseDouble(edtValor.getText().toString());
 
+                    if(user.getTipoUsuario() == ETipoUsuario.Motorista){
+                        if(Double.parseDouble(edtValor.getText().toString()) != 0){
+                            entrega.setMotorista((Motorista) user);
+                            entrega.setValor(Double.parseDouble(edtValor.getText().toString()));
+                            try {
+                                entrega = new SaveEntregaThread().execute(entrega).get();
+                                loadData();
+                                btnPegarEntrega.setVisibility(View.INVISIBLE);
+                                edtValor.setEnabled(false);
+                                Toast.makeText(getApplicationContext(), "Entrega adicionada na sua lista. \r\n Boa Viagem!", Toast.LENGTH_SHORT).show();
+                            } catch (InterruptedException e) {
+                                Toast.makeText(getApplicationContext(), "Falha ao Salvar \r\n Erro: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            } catch (ExecutionException e) {
+                                Toast.makeText(getApplicationContext(), "Falha ao Salvar \r\n Erro: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }else{
+                            Toast.makeText(getApplicationContext(), "Informe um valor para a entrega", Toast.LENGTH_SHORT).show();
+                        }
+                    }else{
+                        Toast.makeText(getApplicationContext(), "Apenas Motoristas", Toast.LENGTH_SHORT).show();
+                    }
+                }catch (Exception ex){
+                    Toast.makeText(getApplicationContext(), "Falha ao converter valor", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -101,6 +113,7 @@ public class CadViewEntregaActivity extends AppCompatActivity {
                     entrega.setEntregaAberta(false);
                     try {
                         entrega = new SaveEntregaThread().execute(entrega).get();
+                        btnConcluirEntrega.setVisibility(View.INVISIBLE);
                         loadData();
                     } catch (InterruptedException e) {
                         Toast.makeText(getApplicationContext(), "Falha ao Salvar \r\n Erro: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -114,6 +127,18 @@ public class CadViewEntregaActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        try {
+            loadData();
+        } catch (InterruptedException e) {
+            Toast.makeText(getApplicationContext(), "Falha ao Consultar \r\n Erro: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        } catch (ExecutionException e) {
+            Toast.makeText(getApplicationContext(), "Falha ao Consultar \r\n Erro: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+    }
 
     private void Binding() {
         edtId = (EditText) findViewById(R.id.frmCadViewEntrega_Id);
@@ -139,7 +164,6 @@ public class CadViewEntregaActivity extends AppCompatActivity {
             btnGravar.setVisibility(View.VISIBLE);
             edtCiente.setEnabled(true);
             edtMotorista.setEnabled(true);
-            edtValor.setEnabled(true);
             edtKmPercorrido.setEnabled(true);
             edtEndOrigem.setEnabled(true);
             edtEndDestino.setEnabled(true);
@@ -149,7 +173,6 @@ public class CadViewEntregaActivity extends AppCompatActivity {
             btnGravar.setVisibility(View.INVISIBLE);
             edtCiente.setEnabled(false);
             edtMotorista.setEnabled(false);
-            edtValor.setEnabled(false);
             edtKmPercorrido.setEnabled(false);
             edtEndOrigem.setEnabled(false);
             edtEndDestino.setEnabled(false);
@@ -158,14 +181,18 @@ public class CadViewEntregaActivity extends AppCompatActivity {
 
         if(entrega.getMotorista().getId()!= 0 && user.getTipoUsuario() == ETipoUsuario.Motorista){
             btnConcluirEntrega.setVisibility(View.VISIBLE);
+            edtValor.setEnabled(false);
         }else{
             btnConcluirEntrega.setVisibility(View.INVISIBLE);
+            edtValor.setEnabled(false);
         }
 
         if(entrega.getMotorista().getId()== 0 && user.getTipoUsuario() == ETipoUsuario.Motorista){
             btnPegarEntrega.setVisibility(View.VISIBLE);
+            edtValor.setEnabled(true);
         }else{
             btnPegarEntrega.setVisibility(View.INVISIBLE);
+            edtValor.setEnabled(false);
         }
     }
 
@@ -176,7 +203,7 @@ public class CadViewEntregaActivity extends AppCompatActivity {
             edtId.setText(Integer.toString(entrega.getId()));
             edtCiente.setText(entrega.getCliente().getNome());
             edtMotorista.setText(entrega.getMotorista().getNome());
-            edtValor.setText("R$ " + Double.toString(entrega.getValor()));
+            edtValor.setText(Double.toString(entrega.getValor()));
             edtKmPercorrido.setText(Double.toString(entrega.getKmPercorrido()) + " km");
             edtEndOrigem.setText(entrega.getEnderecoOrigem().getDescricao());
             edtEndDestino.setText(entrega.getEnderecoDestino().getDescricao());

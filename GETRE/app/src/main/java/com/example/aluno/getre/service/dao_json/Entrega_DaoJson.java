@@ -52,7 +52,7 @@ public class Entrega_DaoJson {
         entrega.setProduto(new Produto_DaoJson().MontaProduto(json_data.getJSONObject("produto")));
 
         entrega.setValor(json_data.getDouble("valor"));
-        entrega.setValor(json_data.getDouble("kmPercorrido"));
+        entrega.setKmPercorrido(json_data.getDouble("kmPercorrido"));
         entrega.setEntregaAberta(json_data.getBoolean("entregaAberta"));
 
         return entrega;

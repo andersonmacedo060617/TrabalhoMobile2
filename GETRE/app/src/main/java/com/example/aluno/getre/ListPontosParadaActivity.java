@@ -56,6 +56,7 @@ public class ListPontosParadaActivity extends AppCompatActivity {
             setResult(0);
             finish();
         }else{
+
             CarregarLstViewPontosParada(idEntrega);
         }
 

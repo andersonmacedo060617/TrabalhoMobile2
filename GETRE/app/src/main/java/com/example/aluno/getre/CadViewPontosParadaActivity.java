@@ -1,5 +1,6 @@
 package com.example.aluno.getre;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -62,17 +63,26 @@ public class CadViewPontosParadaActivity extends AppCompatActivity {
                     setResult(0);
                     finish();
                 }else{
+                    try {
+                        Double.parseDouble(edtKmFaltante.getText().toString());
+                        Double.parseDouble(edtKmPercorrido.getText().toString());
+
                     endereco = new Endereco();
                     endereco.setDescricao(edtDescricao.getText().toString());
                     endereco.setDetalhe(edtDetalhes.getText().toString());
-                    endereco.setKmFaltante(Integer.parseInt(edtKmFaltante.getText().toString()));
-                    endereco.setKmPercorrido(Integer.parseInt(edtKmPercorrido.getText().toString()));
+                    endereco.setKmFaltante(Double.parseDouble(edtKmFaltante.getText().toString()));
+                    endereco.setKmPercorrido(Double.parseDouble(edtKmPercorrido.getText().toString()));
                     endereco.setHorrario(new Date());
 
                     try {
+                        //Salvo a endereco. Retorna a endereco salva
                         endereco = new SaveEnderecoThread().execute(endereco).get();
+
+                        //Pego a entrega para adcionar o endereço como  parada e salvar a entrega.
                         Entrega entrega = new FindEntregaByIdThread().execute(Integer.toString(idEntrega)).get();
                         entrega.getRegistroParadas().add(endereco);
+                        entrega.CalculaKmTotal();
+
                         entrega = new SaveEntregaThread().execute(entrega).get();
 
 
@@ -85,7 +95,9 @@ public class CadViewPontosParadaActivity extends AppCompatActivity {
                     } catch (ExecutionException e) {
                         Toast.makeText(getApplicationContext(), "Falha no cadastro \r\n" + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
-
+                    }catch (Exception e){
+                        Toast.makeText(getApplicationContext(), "Campos de distancia devem ser Numericos", Toast.LENGTH_SHORT).show();
+                    }
 
 
                 }
@@ -104,6 +116,7 @@ public class CadViewPontosParadaActivity extends AppCompatActivity {
         btnVoltar = (Button) findViewById(R.id.frmCadViewPontoParada_btnVoltar);
         btnGravar = (Button) findViewById(R.id.frmCadViewPontoParada_btnGravar);
         edtId.setEnabled(false);
+        edtHorario.setEnabled(false);
     }
 
     private void ConfigViewOperation() {
@@ -138,7 +151,7 @@ public class CadViewPontosParadaActivity extends AppCompatActivity {
         edtDetalhes.setEnabled(b);
         edtKmPercorrido.setEnabled(b);
         edtKmFaltante.setEnabled(b);
-        edtHorario.setEnabled(b);
+        edtHorario.setEnabled(false);
         btnGravar.setVisibility((b?View.VISIBLE:View.INVISIBLE));
     }
 }
